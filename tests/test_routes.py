@@ -123,4 +123,42 @@ class TestAccountService(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
+    def test_get_account_list(self):
+        self._create_accounts(5)
+        resp = self.client.get(BASE_URL)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(resp.get_json()), 5)
+
+    def test_read_an_account(self):
+        acct = self._create_accounts(1)[0]
+        resp = self.client.get(f"{BASE_URL}/{acct.id}")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(resp.get_json()["id"], acct.id)
+
+    def test_get_account_not_found(self):
+        resp = self.client.get(f"{BASE_URL}/0")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_account(self):
+        acct = self._create_accounts(1)[0]
+        payload = acct.serialize()
+        payload["name"] = "Something Known"
+        resp = self.client.put(f"{BASE_URL}/{acct.id}", json=payload)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(resp.get_json()["name"], "Something Known")
+
+    def test_update_account_not_found(self):
+        resp = self.client.put(f"{BASE_URL}/0", json={"name": "X"})
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_account(self):
+        acct = self._create_accounts(1)[0]
+        resp = self.client.delete(f"{BASE_URL}/{acct.id}")
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_method_not_allowed(self):
+        resp = self.client.delete(BASE_URL)  # DELETE on /accounts (no id)
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
     # ADD YOUR TEST CASES HERE ...
