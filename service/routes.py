@@ -38,6 +38,7 @@ def index():
 ######################################################################
 # CREATE A NEW ACCOUNT
 ######################################################################
+
 @app.route("/accounts", methods=["POST"])
 def create_accounts():
     """
@@ -60,8 +61,9 @@ def create_accounts():
 ######################################################################
 # LIST ALL ACCOUNTS
 ######################################################################
-
 # LIST
+
+
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     app.logger.info("Request to list Accounts")
@@ -71,8 +73,9 @@ def list_accounts():
 ######################################################################
 # READ AN ACCOUNT
 ######################################################################
-
 # READ
+
+
 @app.route("/accounts/<int:account_id>", methods=["GET"])
 def read_account(account_id):
     app.logger.info("Request to read Account %s", account_id)
@@ -84,8 +87,9 @@ def read_account(account_id):
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
-
 # UPDATE
+
+
 @app.route("/accounts/<int:account_id>", methods=["PUT"])
 def update_accounts(account_id):
     app.logger.info("Request to update Account %s", account_id)
@@ -99,8 +103,9 @@ def update_accounts(account_id):
 ######################################################################
 # DELETE AN ACCOUNT
 ######################################################################
-
 # DELETE
+
+
 @app.route("/accounts/<int:account_id>", methods=["DELETE"])
 def delete_accounts(account_id):
     app.logger.info("Request to delete Account %s", account_id)

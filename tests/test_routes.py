@@ -160,5 +160,4 @@ class TestAccountService(TestCase):
         resp = self.client.delete(BASE_URL)  # DELETE on /accounts (no id)
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-
     # ADD YOUR TEST CASES HERE ...
